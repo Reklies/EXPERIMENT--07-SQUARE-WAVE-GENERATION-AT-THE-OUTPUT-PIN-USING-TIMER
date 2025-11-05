@@ -96,11 +96,10 @@ Step14. click on debug and simulate using simulation as shown below
   
 
 ## STM 32 CUBE PROGRAM :
-```c
+
+```
+
 #include "main.h"
-
-TIM_HandleTypeDef htim2;
-
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_TIM2_Init(void);
@@ -108,16 +107,15 @@ static void MX_TIM2_Init(void);
 int main(void)
 {
   HAL_Init();
+
   SystemClock_Config();
+
   MX_GPIO_Init();
   MX_TIM2_Init();
-  HAL_TIM_Base_Start(&htim2);
-  HAL_TIM_PWM_Init(&htim2);
-  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_1);
-
   while (1)
   {
   }
+
 }
 
 void SystemClock_Config(void)
@@ -127,7 +125,7 @@ void SystemClock_Config(void)
 
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
-
+ 
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
@@ -152,6 +150,8 @@ void SystemClock_Config(void)
 
 static void MX_TIM2_Init(void)
 {
+
+
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
@@ -190,11 +190,13 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   HAL_TIM_MspPostInit(&htim2);
+
 }
 
 static void MX_GPIO_Init(void)
 {
   __HAL_RCC_GPIOA_CLK_ENABLE();
+
 }
 
 void Error_Handler(void)
@@ -205,47 +207,84 @@ void Error_Handler(void)
   }
 }
 
-#ifdef  USE_FULL_ASSERT
 void assert_failed(uint8_t *file, uint32_t line)
 {
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+
 }
-#endif
+
+
+
 ```
 
 
-
-
-## Output screen shots of proteus  :
+## OUTPUT :
 ![pmc](https://github.com/user-attachments/assets/36708358-e1c3-47af-9e1c-c7c00676a016)
-
-
- 
- ## CIRCUIT DIAGRAM (EXPORT THE GRAPHICS TO PDF AND ADD THE SCREEN SHOT HERE): 
- <img width="908" height="727" alt="Screenshot 2025-10-15 094838" src="https://github.com/user-attachments/assets/3cfe740e-8a05-4064-8897-85263c35bc4b" />
 
 
 ## DUTY CYCLE AND FREQUENCY CALCULATION 
 FOR PULSE AT 500
+![441193740-af0e010e-758f-4d26-a6ce-c9466182d350](https://github.com/user-attachments/assets/2ee94cbc-79d8-4d96-a336-d4b94cd19dfb)
 
-TON = 
-TOFF=
-TOTAL TIME = 
-FREQUENCY = 1/(TOTAL TIME)
+
+```
+TON = 3 x 10 x 10^-6
+    = 0.00003
+TOFF=0.00003
+TOTAL TIME = TON + TOFF
+           = 0.00003+0.00003 
+           = 0.00006
+FREQUENCY = 1/(TOTAL TIME) 
+          =1/0.00006 
+          = 16666.7
+DUTY CYCLE = TON /(TON+TOFF)
+           = 0.00003/0.00006
+           = 0.5
+      IN % =0.5*100 
+           = 50 %
+```
+
 
 FOR PULSE AT 700
+![441193979-3a401d6b-7849-421a-b1f7-ca489800fe11](https://github.com/user-attachments/assets/5e3fa348-50e6-4658-a06a-3daa89ec9be1)
 
-TON = 
-TOFF=
-TOTAL TIME = 
+```
+TON = 4 x 10 x 10^-6
+    = 0.00004
+TOFF= 2 x 10 x 10^-6
+    = 0.00002
+TOTAL TIME = TON + TOFF
+           = 0.00004+0.00002
+           = 0.00006
 FREQUENCY = 1/(TOTAL TIME)
+          = 16666.7
+DUTY CYCLE = TON /(TON+TOFF)
+           = 0.00004/0.00006
+           = 0.7
+      IN % =0.7*100 
+           = 70 %
+```
 
 
 FOR PULSE AT 900
+![441194179-aa29e670-19a7-4185-a1ea-ffbf7cd2c5a6](https://github.com/user-attachments/assets/ddcc1dca-1b88-4081-a930-06a4d2e77143)
 
-TON = 
-TOFF=
-TOTAL TIME = 
+```
+TON = 1 x 50 x 10^-6
+    = 0.00005
+TOFF= 0.1 x 50 x 10^-6
+    = 0.000005
+TOTAL TIME = TON + TOFF
+           = 0.00005 + 0.000005
+           = 0.000055
 FREQUENCY = 1/(TOTAL TIME)
+          = 18181.82
+DUTY CYCLE = TON /(TON+TOFF)
+           = 0.00005/0.000055
+           = 0.9
+      IN % =0.9*100 
+           = 90 %
+```
 
 
 ## Result :
